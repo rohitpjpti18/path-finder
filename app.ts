@@ -1,7 +1,7 @@
 import Board from './board';
 
 
-const row = 20;
+const row = 25;
 const column = 50;
 const source = 61;
 const destination = 380;

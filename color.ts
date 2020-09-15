@@ -2,33 +2,43 @@ import NodeSet from "./graph/node";
 
 class ColorNode{
     speed: number;
+    defaultColor: string;
     wallColor: string;
     visitedColor: string;
     pathColor: string;
 
     constructor(){
         this.speed = 25;
-        this.wallColor = "#3f3e45";
-        this.visitedColor = "#f5c271";
-        this.pathColor = "#71f582";
+        this.defaultColor = "#c5e2db";
+        this.wallColor = "#334d46";
+        this.visitedColor = "#00e68a";
+        this.pathColor = "#ffe066";
     }
 
     sleep(){
         return new Promise(resolve => setTimeout(resolve, this.speed));
     }
 
+    updateCellColor(cell:any ,bcolor:string, borderColor:string){
+        cell.style.backgroundColor = bcolor;
+        cell.style.borderColor = borderColor;
+    }
+
 
     async updateNodeColor(node:[string, number, number, number, boolean]){
         var cell = document.getElementById(node[0]);
 
-        if(node[1] == 1){
-            cell.style.backgroundColor = this.visitedColor;
+        if(node[1] == 0){
+            this.updateCellColor(cell, "white", this.defaultColor);
+        }
+        else if(node[1] == 1){
+            this.updateCellColor(cell, this.visitedColor, this.defaultColor);
         }
         else if(node[1] == 2){
-            cell.style.backgroundColor = this.pathColor;
+            this.updateCellColor(cell, this.pathColor, this.defaultColor);
         }
         else if(node[1] == 3){
-            cell.style.backgroundColor = this.wallColor;
+            this.updateCellColor(cell, this.wallColor, this.wallColor);
         }
 
         await this.sleep();
@@ -38,16 +48,16 @@ class ColorNode{
         for(let i:number=0; i<nodeList.length; i++){
             let cell = document.getElementById(nodeList[i][0]);
             if(nodeList[i][1] == 0){
-                cell.style.backgroundColor = "white";
+                this.updateCellColor(cell, "white", this.defaultColor);
             }
             if(nodeList[i][1] == 1){
-                cell.style.backgroundColor = this.visitedColor;
+                this.updateCellColor(cell, this.visitedColor, this.defaultColor);
             }
             if(nodeList[i][1] == 2){
-                cell.style.backgroundColor = this.pathColor;
+                this.updateCellColor(cell, this.pathColor, this.defaultColor);
             }
             if(nodeList[i][1] == 3){
-                cell.style.backgroundColor = this.wallColor;
+                this.updateCellColor(cell, this.wallColor, this.wallColor);
             }
         }
     }
