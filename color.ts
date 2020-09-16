@@ -1,4 +1,4 @@
-import NodeSet from "./graph/node";
+import NodeSet from "./utilities/node";
 
 class ColorNode{
     speed: number;
@@ -11,7 +11,7 @@ class ColorNode{
         this.speed = 25;
         this.defaultColor = "#c5e2db";
         this.wallColor = "#334d46";
-        this.visitedColor = "#00e68a";
+        this.visitedColor = "#96daeb";
         this.pathColor = "#ffe066";
     }
 

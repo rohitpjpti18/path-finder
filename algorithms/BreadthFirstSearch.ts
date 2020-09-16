@@ -1,5 +1,5 @@
 import ColorNode from "../color";
-import Queue from "../graph/queue";
+import Queue from "../utilities/queue";
 
 class BreadthFirstSearch{
     nodes: any[];

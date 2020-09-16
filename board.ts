@@ -1,10 +1,12 @@
-import NodeSet from "./graph/node";
-import EdgeSet from "./graph/edges";
+import NodeSet from "./utilities/node";
+import EdgeSet from "./utilities/edges";
 import ColorNode from "./color";
 import BreadthFirstSearch from "./algorithms/BreadthFirstSearch";
+import RecursiveDivision from "./mazes/recursivedivision";
 
 class Board{
     nodes:NodeSet;
+    openBuildByRD: boolean[];
     edges:EdgeSet;
     bfs:BreadthFirstSearch;
     colorHandler:ColorNode;
@@ -26,6 +28,8 @@ class Board{
     overlapped: boolean;
     algoExecuted: boolean;
     algoInProgress: boolean;
+
+    previousCol: boolean;
 
     constructor(row: number, column: number, start: number, end: number){
         this.nodes = new NodeSet(row, column);
@@ -50,6 +54,10 @@ class Board{
         this.endNodeSelected = false;
         this.overlapped = false;
 
+        this.openBuildByRD = []
+
+        this.previousCol = false;
+
         for(let i = 0; i<row; i++){
             let currentRow = document.createElement("tr");
             for(let j = 0; j<column; j++){
@@ -57,6 +65,7 @@ class Board{
                 let currentCol = document.createElement("td");
                 currentCol.id = ID;
                 currentRow.appendChild(currentCol);
+                this.openBuildByRD.push(false);
             }
             this.table.appendChild(currentRow);
         }
@@ -79,6 +88,15 @@ class Board{
             this.nodes.nodeList[index][4] = false;
         }
         this.colorHandler.recolorAllNodes(this.nodes.nodeList);
+    }
+
+    async handleWallBuildingHauleHaule(index:number){
+        if(index != this.source && index != this.destination)
+            this.nodes.setWallStatus(index);
+        else{
+            this.nodes.nodeList[index][4] = false;
+        }
+        await this.colorHandler.updateNodeColor(this.nodes.nodeList[index]);
     }
 
     clearPath(){
@@ -110,6 +128,22 @@ class Board{
             this.nodes.nodeList[i][3] = -1;
         }
 
+        this.colorHandler.recolorAllNodes(this.nodes.nodeList);
+    }
+
+
+    clearBoard(){
+
+        for(let i = 0; i<this.nodes.nodeList.length; i++){
+            if(this.nodes.nodeList[i][4]){
+                this.nodes.setNodeToDefault(i)
+            }
+            else{
+                this.nodes.nodeList[i][1] = 0;
+            }
+            this.nodes.nodeList[i][2] = -1;
+            this.nodes.nodeList[i][3] = -1;
+        }
         this.colorHandler.recolorAllNodes(this.nodes.nodeList);
     }
 
@@ -294,23 +328,64 @@ class Board{
         }
     }
 
-    async buildBorder(){
-        for(let i = 0; i<this.nodes.column; i++){
-            this.nodes.setNodeToWall(i);
-            await this.colorHandler.updateNodeColor(this.nodes.nodeList[i])
+
+
+/*
+    GenerateOddRandomNumber(lowerLimit:number, upperLimit:number){
+        let random = Math.floor((Math.random()*(upperLimit-lowerLimit+2))+lowerLimit);
+        if(random%2 === 0){
+            return random-1;
         }
-        for(let i = 1; i<this.nodes.row-1; i++){
-            this.nodes.setNodeToWall(i*this.nodes.column);
-            this.nodes.setNodeToWall(i*this.nodes.column+(this.nodes.column-1))
-            await Promise.all([this.colorHandler.updateNodeColor(this.nodes.nodeList[i*this.nodes.column]), 
-            this.colorHandler.updateNodeColor(this.nodes.nodeList[i*this.nodes.column+(this.nodes.column-1)])]);
+        return random;
+    }
+
+    GenerateEvenRandomNumber(lowerLimit:number, upperLimit:number){
+        let random = Math.floor((Math.random()*(upperLimit-lowerLimit+1))+lowerLimit);
+        if(random%2 !== 0){
+            if(random !== upperLimit)
+                return random+1;
+            else
+                return random-1;
+        }
+        return random;
+    }
+
+    async recursiveDivision(rowStartPos:number, rowEndPos:number, colStartPos:number, colEndPos:number){
+        if((rowEndPos>rowStartPos+1)&&(colEndPos>colStartPos+1)){
+            if((rowEndPos-rowStartPos)<(colEndPos-colStartPos)){
+                let divider = this.GenerateEvenRandomNumber(colStartPos, colEndPos);
+                for(let i = rowStartPos; i<=rowEndPos; i++){
+                    let currentIndex = this.nodes.resolveRowColumn(i, divider);
+                    await this.handleWallBuildingHauleHaule(currentIndex);
+                }
+                let openRow = this.GenerateOddRandomNumber(rowStartPos, rowEndPos);
+                let openNode = this.nodes.resolveRowColumn(openRow, divider);
+                await this.handleWallBuildingHauleHaule(openNode);
+
+
+                await this.recursiveDivision(rowStartPos, rowEndPos, colStartPos, divider-1);
+                await this.recursiveDivision(rowStartPos, rowEndPos, divider+1, colEndPos);
+            }
+            else{
+                let divider = this.GenerateEvenRandomNumber(rowStartPos, rowEndPos);
+                for(let i = colStartPos; i<=colEndPos; i++){
+                    let currentIndex = this.nodes.resolveRowColumn(divider, i);
+                    await this.handleWallBuildingHauleHaule(currentIndex);
+                }
+                let openCol = this.GenerateOddRandomNumber(colStartPos, colEndPos);
+                let openNode = this.nodes.resolveRowColumn(divider, openCol);
+                await this.handleWallBuildingHauleHaule(openNode);
+    
+                await this.recursiveDivision(rowStartPos, divider-1, colStartPos, colEndPos);
+                await this.recursiveDivision(divider+1, rowEndPos, colStartPos, colEndPos);
+            }
+
         }
 
-        for(let i = 0; i<this.nodes.column; i++){
-            this.nodes.setNodeToWall(i+((this.nodes.row-1)*this.nodes.column));
-            await this.colorHandler.updateNodeColor(this.nodes.nodeList[i+((this.nodes.row-1)*this.nodes.column)])
-        }
     }
+*/
+
+
 }
 
 

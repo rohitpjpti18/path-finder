@@ -1,8 +1,9 @@
 import Board from './board';
+import RecursiveDivision from './mazes/recursivedivision';
 
 
-const row = 25;
-const column = 50;
+const row = 19;
+const column = 51;
 const source = 61;
 const destination = 380;
 
@@ -14,21 +15,25 @@ var starter = document.getElementById("start");
 let wal = document.getElementById("wall");
 let clear = document.getElementById("clear");
 
-async function initiateBFS(){
-    await board.algoHandler("bfs");
+
+async function handleMazeBuilding(mazeType:string){
+    if(mazeType == "recursive-division"){
+        let mazeAlgo = new RecursiveDivision(board);
+        mazeAlgo.recursiveDivisionMaze();
+    }
+}
+async function handleAlgorithms(){
+   board.algoHandler("bfs");
 }
 
 starter.onclick = (e)=>{
-
-    initiateBFS();
-
-
+    handleAlgorithms();
 }
 
 wal.onclick = (e)=>{
-    board.buildBorder();
+    handleMazeBuilding("recursive-division");
 }
 
 clear.onclick = (e)=>{
-    board.clearPath();
+    board.clearBoard();
 }
