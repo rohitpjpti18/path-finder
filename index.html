@@ -5,48 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Path Finder</title>
     <link rel="stylesheet" href="index.css" >
+    <link rel="icon" href="map-marked-alt.svg" type = "image/x-icon">
     <script src="https://kit.fontawesome.com/3a74272c7d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #3f3e45;">
-        <a class="navbar-brand" href="#">PathFinding Tool</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Path Finder</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
             <li class="nav-item">
-              <a class="nav-link" onclick="initiateBFS()">Find Path</a>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Choose Maze Pattern
+                    </button>
+                    <div class="dropdown-menu">
+                      <button class="dropdown-item" id="wall">Recursive Division</button>
+                    </div>
+                </div>
             </li>
+            &nbsp;
             <li class="nav-item">
-              <a class="nav-link" href="#">Pricing</a>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Choose Algorithm
+                    </button>
+                    <div class="dropdown-menu">
+                      <button class="dropdown-item" id="start">Breadth First Search</button>
+                    </div>
+                </div>
             </li>
           </ul>
           <span class="navbar-text">
-            Navbar text with an inline element
+            <a class="nav-item">
+                <button type="button" class="btn btn-outline-warning" id="reset">Reset the Board</button>
+            </a>
+            <a class="nav-item">
+                <button type="button" class="btn btn-outline-danger" id="clear">Clear The Board</button>
+            </a>
           </span>
         </div>
     </nav>
     <div class="container">
-        <div style="height: 20px;"></div>
+        <div style="height: 10px;"></div>
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <div class="row">
-                    <div class="col-1">
-                        <div><strong>$</strong></div>
+                    <div class="col-12">
+                        <ul>
+                            <li><b>$</b>-Source</li>
+                            <li><b>O</b>-Destination</li>
+                            <li><b>W</b>-weight</li>
+                        </ul>
                     </div>
-                    <div class="col-5">- Source</div>
-                    <div class="col-1">
-                        <div><strong>O</strong></div>
-                    </div>
-                    <div class="col-5">- Destination</div>
                 </div>
             </div>
             <div class="col-md-6">
@@ -55,27 +72,24 @@
                         <div class="small-box" style="background-color: #3f3e45;"></div>
                     </div>
                     <div class="col-3">Wall Nodes</div>
-                    <div class="col-1">
+                    <div class="col-2 align-items-center">
                         <div class="small-box" style="background-color: #00e68a;"></div>
+                        <div class="small-box" style="background-color: #96daeb;"></div>
                     </div>
                     <div class="col-3">Visited Nodes</div>
                     <div class="col-1">
                         <div class="small-box" style="background-color: #ffe066;"></div>
                     </div>
-                    <div class="col-3">Path</div>
+                    <div class="col-2">Path</div>
                 </div>
             </div>
             <div class="col-md-2">
-                <button type="button" class="btn btn-outline-info btn-block" id="wall">build border</button>
-                <button type="button" class="btn btn-outline-info btn-block" id="clear">Clear</button>
-                <button type="button" class="btn btn-outline-info btn-block" id="start">Find Path!</button>
+                
             </div>
 
         </div>
     </div>
-    <div class="container">
-        <div style="height: 20px;"></div>
-    </div>
+
     <div id="my">
         <div id="main">
         
