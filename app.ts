@@ -3,6 +3,8 @@ import RecursiveDivision from './mazes/recursivedivision';
 
 let temp1 = 19;
 let temp2 = 51;
+let temp3 = 61;
+let temp4 = 380;
 if (navigator.userAgent.match(/Android/i) 
         || navigator.userAgent.match(/webOS/i) 
         || navigator.userAgent.match(/iPhone/i)  
@@ -10,14 +12,16 @@ if (navigator.userAgent.match(/Android/i)
         || navigator.userAgent.match(/iPod/i) 
         || navigator.userAgent.match(/BlackBerry/i) 
         || navigator.userAgent.match(/Windows Phone/i)) { 
-        temp1= 13;
-        temp2= 19;
+        temp1 = 19;
+        temp2 = 13;
+        temp3 = 14;
+        temp4 = 50;
 } 
 
 const row = temp1;
 const column = temp2;
-const source = 61;
-const destination = 380;
+const source = temp3;
+const destination = temp4;
 
 
 let board = new Board(row, column, source, destination);
