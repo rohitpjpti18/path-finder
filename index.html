@@ -13,7 +13,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-steel">
         <a class="navbar-brand" href="#">
-            <img src="map-marked-alt.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+            <i class="fas fa-map-marked-alt" style="font-size: 24px; color: white"></i>
             PathFinder
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,34 +21,31 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Choose Maze Pattern
-                    </button>
-                    <div class="dropdown-menu">
-                      <button class="dropdown-item" id="wall">Recursive Division</button>
-                    </div>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Select a maze pattern
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" id="wall">Recursive Division</a>
+                    <a class="dropdown-item" id='selection'>Selection Sort</a>
                 </div>
             </li>
             &nbsp;
-            <li class="nav-item">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Choose Algorithm
-                    </button>
-                    <div class="dropdown-menu">
+            <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Select an algorithm
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
                       <button class="dropdown-item" id="start">Breadth First Search</button>
                     </div>
-                </div>
             </li>
           </ul>
           <span class="navbar-text">
             <a class="nav-item">
-                <button type="button" class="btn btn-outline-warning" id="reset">Reset the Board</button>
+                <button type="button" class="btn btn-warning" id="reset">Reset the Board</button>
             </a>
             <a class="nav-item">
-                <button type="button" class="btn btn-outline-danger" id="clear">Clear The Board</button>
+                <button type="button" class="btn btn-danger" id="clear">Clear The Board</button>
             </a>
           </span>
         </div>
@@ -72,7 +69,7 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-1">
-                        <div class="small-box" style="background-color: #3f3e45;"></div>
+                        <div class="small-box" style="background-color: #4a5e58;"></div>
                     </div>
                     <div class="col-3">Wall Nodes</div>
                     <div class="col-2 align-items-center">

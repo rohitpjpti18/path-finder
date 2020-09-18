@@ -66,10 +66,12 @@ class RecursiveDivision{
 
 
     async recursiveDivisionMaze(){
+        this.board.algoInProgress = true;
         this.board.clearBoard();
 
         await this.buildBorder();
         await this.recursiveDivision(1, this.board.nodes.row-2, 1, this.board.nodes.column-2);
+        this.board.algoInProgress = false;
     }
 }
 

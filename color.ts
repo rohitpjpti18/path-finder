@@ -10,7 +10,7 @@ class ColorNode{
     constructor(){
         this.speed = 25;
         this.defaultColor = "#c5e2db";
-        this.wallColor = "#334d46";
+        this.wallColor = "#4a5e58";
         this.visitedColor = "#96daeb";
         this.pathColor = "#ffe066";
     }
