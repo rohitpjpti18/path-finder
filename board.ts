@@ -117,6 +117,7 @@ class Board{
     }
 
     resetNodes(){
+        this.algoExecuted = false;
         
         for(let i = 0; i<this.nodes.nodeList.length; i++){
             if(this.nodes.nodeList[i][4])
