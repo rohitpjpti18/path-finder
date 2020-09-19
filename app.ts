@@ -14,8 +14,8 @@ if (navigator.userAgent.match(/Android/i)
         || navigator.userAgent.match(/Windows Phone/i)) { 
         temp1 = 23;
         temp2 = 15;
-        temp3 = 14;
-        temp4 = 50;
+        temp3 = 16;
+        temp4 = 313;
 } 
 
 const row = temp1;
