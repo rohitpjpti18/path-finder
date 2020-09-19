@@ -1,8 +1,8 @@
 import Board from './board';
 import RecursiveDivision from './mazes/recursivedivision';
 
-let temp1 = 19;
-let temp2 = 51;
+let temp1 = 23;
+let temp2 = 59;
 let temp3 = 61;
 let temp4 = 380;
 if (navigator.userAgent.match(/Android/i) 
@@ -12,8 +12,8 @@ if (navigator.userAgent.match(/Android/i)
         || navigator.userAgent.match(/iPod/i) 
         || navigator.userAgent.match(/BlackBerry/i) 
         || navigator.userAgent.match(/Windows Phone/i)) { 
-        temp1 = 19;
-        temp2 = 13;
+        temp1 = 23;
+        temp2 = 15;
         temp3 = 14;
         temp4 = 50;
 } 
