@@ -15,6 +15,7 @@
         <a class="navbar-brand" href="#">
             <i class="fas fa-map-marked-alt" style="font-size: 24px; color: white"></i>
             PathFinder
+            <button id="startExec" type="button" class="btn btn-warning">Find Path</button>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -38,8 +39,8 @@
                         Select an algorithm
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                        <a class="dropdown-item" id="start">Breadth First Search</a>
-                        <a class="dropdown-item" id="start"><del>Depth First Search</del></a>
+                        <a class="dropdown-item" id="bfs">Breadth First Search</a>
+                        <a class="dropdown-item" id="dfs">Depth First Search</a>
                         <a class="dropdown-item" id="start"><del>Dijkstra's algorithm</del></a>
                         <a class="dropdown-item" id="start"><del>A-star algorithm</del></a>
                     </div>
@@ -109,7 +110,7 @@
           <span id="close" class="close">&times;</span>
           <div class="container">
             <h1 style="text-align: center;"><b>Welcome to PathFinder!</b></h1>
-            <p style="font-size: 24px; text-align: center;">create your own maze and watch algorithms find the shortest path.</p>
+            <p style="font-size: 24px; text-align: center;">create your own maze and watch algorithms find a path through them.</p>
             <img class="img-fluid" src="images/screenshot1.png" >
 
             <p style="font-size: 24px;">Just click and drag and your wall would get created or source and Destination would change. Then choose your favorite algorithms and visualize. </p>

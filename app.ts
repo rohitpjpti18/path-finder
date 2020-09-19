@@ -27,12 +27,27 @@ const destination = temp4;
 let board = new Board(row, column, source, destination);
 
 
-let starter = document.getElementById("start");
+let startExec = document.getElementById("startExec");
 let wal = document.getElementById("wall");
 let clear = document.getElementById("clear");
 
+let dfs = document.getElementById("dfs");
+let bfs = document.getElementById("bfs");
+
+dfs.onclick = ()=>{
+    console.log("dfs worked!!");
+    board.algoID = 2;
+}
+
+bfs.onclick = ()=>{
+    board.algoID = 1;
+}
 
 
+startExec.onclick = ()=>{
+    console.log("startExec worked!!");
+    board.algoHandler("bfs");
+}
 
 
 async function handleMazeBuilding(mazeType:string){
@@ -45,9 +60,6 @@ async function handleAlgorithms(){
    board.algoHandler("bfs");
 }
 
-starter.onclick = ()=>{
-    handleAlgorithms();
-}
 
 wal.onclick = ()=>{
     handleMazeBuilding("recursive-division");

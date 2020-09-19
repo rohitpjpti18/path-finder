@@ -3,6 +3,7 @@ import EdgeSet from "./utilities/edges";
 import ColorNode from "./color";
 import BreadthFirstSearch from "./algorithms/BreadthFirstSearch";
 import RecursiveDivision from "./mazes/recursivedivision";
+import DepthFirstSearch from "./algorithms/DepthFirstSearch";
 
 class Board{
     nodes:NodeSet;
@@ -28,6 +29,7 @@ class Board{
     overlapped: boolean;
     algoExecuted: boolean;
     algoInProgress: boolean;
+    algoID: number;
 
     previousCol: boolean;
 
@@ -39,6 +41,7 @@ class Board{
         this.table = document.createElement("table");
         this.source = start;
         this.destination = end;
+        this.algoID = -1;
 
 
 
@@ -135,7 +138,7 @@ class Board{
     clearBoard(){
 
         this.algoExecuted = false;
-        
+
         for(let i = 0; i<this.nodes.nodeList.length; i++){
             if(this.nodes.nodeList[i][4]){
                 this.nodes.setNodeToDefault(i)
@@ -299,7 +302,7 @@ class Board{
     }
 
     reCompute(algId:string, sor:number ,dest:number){
-        if(algId == "bfs"){
+        if(this.algoID == 1){
             this.resetNodes();
             this.colorHandler.recolorAllNodes(this.nodes.nodeList);
 
@@ -310,10 +313,22 @@ class Board{
             this.colorHandler.findQuickPath(this.nodes.nodeList, dest, sor)
         }
 
+        if(this.algoID == 2){
+            this.resetNodes();
+            this.colorHandler.recolorAllNodes(this.nodes.nodeList);
+            
+            this.edges.computeUnweightedEdges(this.nodes.nodeList, this.nodes.column);
+            let dfs = new DepthFirstSearch(this.nodes.nodeList, this.edges.edgeList, this.source, this.destination, this.colorHandler);
+            this.nodes.nodeList[sor][1] = 1;
+            this.colorHandler.findQuickPath(this.nodes.nodeList, dest, sor);
+            dfs.computeQuickDFS(sor, dest);
+            this.colorHandler.findQuickPath(this.nodes.nodeList, dest, sor);
+        }
+
     }
 
     async algoHandler(algId:string){
-        if(algId == "bfs"){
+        if(this.algoID == 1){
             this.algoInProgress = true;
 
             this.resetNodes();
@@ -323,6 +338,23 @@ class Board{
             this.bfs = new BreadthFirstSearch(this.nodes.nodeList, this.edges.edgeList, this.source, this.destination, this.colorHandler);
 
             await this.bfs.computeBFS(this.source);
+            await this.colorHandler.findPath(this.nodes.nodeList, this.destination, this.source);
+
+            this.algoInProgress = false;
+            this.algoExecuted = true;
+        }
+
+        if(this.algoID == 2){
+            this.algoInProgress = true;
+
+            this.resetNodes();
+            this.colorHandler.recolorAllNodes(this.nodes.nodeList);
+
+            this.edges.computeUnweightedEdges(this.nodes.nodeList, this.nodes.column);
+            let dfs = new DepthFirstSearch(this.nodes.nodeList, this.edges.edgeList, this.source, this.destination, this.colorHandler);
+            this.nodes.nodeList[this.source][1] = 1;
+            await this.colorHandler.updateNodeColor(this.nodes.nodeList[this.source]);
+            await dfs.computeDFS(this.source);
             await this.colorHandler.findPath(this.nodes.nodeList, this.destination, this.source);
 
             this.algoInProgress = false;
