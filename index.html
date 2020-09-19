@@ -27,7 +27,9 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" id="wall">Recursive Division</a>
-                    <a class="dropdown-item" id='selection'>Selection Sort</a>
+                    <a class="dropdown-item">Recursive Divison (Vertical)</a>
+                    <a class="dropdown-item"><del>Recursive Divison (Horizontal)</del></a>
+                    <a class="dropdown-item"><del>Random walls</del></a>
                 </div>
             </li>
             &nbsp;
@@ -36,7 +38,10 @@
                         Select an algorithm
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                      <button class="dropdown-item" id="start">Breadth First Search</button>
+                        <a class="dropdown-item" id="start">Breadth First Search</a>
+                        <a class="dropdown-item" id="start"><del>Depth First Search</del></a>
+                        <a class="dropdown-item" id="start"><del>Dijkstra's algorithm</del></a>
+                        <a class="dropdown-item" id="start"><del>A-star algorithm</del></a>
                     </div>
             </li>
           </ul>
@@ -95,6 +100,27 @@
         
         </div>
     </div>
+
+
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span id="close" class="close">&times;</span>
+          <div class="container">
+            <h1 style="text-align: center;"><b>Welcome to PathFinder!</b></h1>
+            <p style="font-size: 24px; text-align: center;">create your own maze and watch algorithms find the shortest path.</p>
+            <img class="img-fluid" src="images/screenshot1.png" >
+
+            <p style="font-size: 24px;">Just click and drag and your wall would get created or source and Destination would change. Then choose your favorite algorithms and visualize. </p>
+            <img class="img-fluid" src="images/how-to-draw-and-drag.gif" >
+            <img class="img-fluid" src="images/how-to-choose-an-algorithm.gif" >
+
+          </div>
+
+        </div>
+      
+      </div>
 
     <script src="dist/bundle.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
