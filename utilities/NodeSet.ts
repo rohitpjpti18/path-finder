@@ -38,6 +38,7 @@ class NodeSet{
         return this.nodeList[index][4];
     }
 
+    // if node is a wall then change it to default and vice-versa;
     setWallStatus(index:number){
         this.nodeList[index][4] = !this.nodeList[index][4];
         if(this.nodeList[index][4]){
@@ -47,6 +48,7 @@ class NodeSet{
             this.nodeList[index][1] = 0;
         }
     }
+
 
     setNodeToWall(index:number){
         this.nodeList[index][4] = true;

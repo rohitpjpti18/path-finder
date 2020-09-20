@@ -1,5 +1,6 @@
-import ColorNode from "../color";
-import Queue from "../utilities/queue";
+import Board from "../Board";
+import ColorNode from "../Color";
+import Queue from "../utilities/Queue";
 
 class BreadthFirstSearch{
     nodes: any[];
@@ -86,6 +87,31 @@ class BreadthFirstSearch{
         }
     }
 
+
+    async execute(board:Board){
+        board.algoInProgress = true;
+
+        board.resetNodes();
+        this.colorhandler.recolorAllNodes(this.nodes);
+        
+        board.edges.computeUnweightedEdges(board.nodes.nodeList, board.nodes.column);
+        this.edges = board.edges.edgeList;
+        await this.computeBFS(this.source);
+        await board.colorHandler.findPath(board.nodes.nodeList, this.destination, this.source);
+
+        board.algoInProgress = false;
+        board.algoExecuted = true;
+    }
+
+    quickExecute(board:Board, currentSor:number, currentDest:number){
+        board.resetNodes();
+        board.colorHandler.recolorAllNodes(board.nodes.nodeList);
+
+        board.edges.computeUnweightedEdges(board.nodes.nodeList, board.nodes.column);
+        this.edges = board.edges.edgeList;
+        this.computeQuickBFS(currentSor, currentDest);
+        board.colorHandler.findQuickPath(board.nodes.nodeList, currentDest, currentSor);
+    }
 }
 
 export default BreadthFirstSearch;

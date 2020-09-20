@@ -1,5 +1,5 @@
-import Board from "../board";
-import Random from "../utilities/randomnumbers";
+import Board from "../Board";
+import Random from "../utilities/Random";
 
 class RecursiveDivision{
 
@@ -65,6 +65,41 @@ class RecursiveDivision{
     }
 
 
+    async recursiveDivisionVertical(rowStartPos:number, rowEndPos:number, colStartPos:number, colEndPos:number){
+        if((rowEndPos>rowStartPos+1)&&(colEndPos>colStartPos+1)){
+            let divider = this.random.GenerateEvenRandomNumber(colStartPos, colEndPos);
+            for(let i = rowStartPos; i<=rowEndPos; i++){
+                let currentIndex = this.board.nodes.resolveRowColumn(i, divider);
+                await this.board.handleWallBuildingHauleHaule(currentIndex);
+            }
+            let openRow = this.random.GenerateOddRandomNumber(rowStartPos, rowEndPos);
+            let openNode = this.board.nodes.resolveRowColumn(openRow, divider);
+            await this.board.handleWallBuildingHauleHaule(openNode);
+
+
+            await this.recursiveDivisionVertical(rowStartPos, rowEndPos, colStartPos, divider-1);
+            await this.recursiveDivisionVertical(rowStartPos, rowEndPos, divider+1, colEndPos);
+        }
+    }
+
+
+    async recursiveDivisionHorizontal(rowStartPos:number, rowEndPos:number, colStartPos:number, colEndPos:number){
+        if((rowEndPos>rowStartPos+1)&&(colEndPos>colStartPos+1)){
+            let divider = this.random.GenerateEvenRandomNumber(rowStartPos, rowEndPos);
+                for(let i = colStartPos; i<=colEndPos; i++){
+                    let currentIndex = this.board.nodes.resolveRowColumn(divider, i);
+                    await this.board.handleWallBuildingHauleHaule(currentIndex);
+                }
+                let openCol = this.random.GenerateOddRandomNumber(colStartPos, colEndPos);
+                let openNode = this.board.nodes.resolveRowColumn(divider, openCol);
+                await this.board.handleWallBuildingHauleHaule(openNode);
+    
+                await this.recursiveDivisionHorizontal(rowStartPos, divider-1, colStartPos, colEndPos);
+                await this.recursiveDivisionHorizontal(divider+1, rowEndPos, colStartPos, colEndPos);
+        }
+    }
+
+
     async recursiveDivisionMaze(){
         this.board.algoInProgress = true;
         this.board.clearBoard();
@@ -72,6 +107,41 @@ class RecursiveDivision{
         await this.buildBorder();
         await this.recursiveDivision(1, this.board.nodes.row-2, 1, this.board.nodes.column-2);
         this.board.algoInProgress = false;
+    }
+
+
+
+    async recursiveDivisionVerticalMaze(){
+        this.board.algoInProgress = true;
+        this.board.clearBoard();
+
+        await this.buildBorder();
+        await this.recursiveDivisionVertical(1, this.board.nodes.row-2, 1, this.board.nodes.column-2);
+
+        this.board.algoInProgress = false;
+    }
+
+    async recursiveDivisionHorizontalMaze(){
+        this.board.algoInProgress = true;
+        this.board.clearBoard();
+
+        await this.buildBorder();
+        await this.recursiveDivisionHorizontal(1, this.board.nodes.row-2, 1, this.board.nodes.column-2);
+
+        this.board.algoInProgress = false;
+    }
+
+
+    async execute(id:number){
+        if(id == 1){
+            await this.recursiveDivisionMaze();
+        }
+        if(id == 2){
+            await this.recursiveDivisionVerticalMaze();
+        }
+        if(id == 3){
+            await this.recursiveDivisionHorizontalMaze();
+        }
     }
 }
 

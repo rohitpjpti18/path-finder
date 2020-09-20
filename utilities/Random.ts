@@ -1,4 +1,19 @@
 class Random{
+    generateRandomNumber(lowerLimit:number, upperLimit:number){
+        return Math.floor((Math.random()*(upperLimit-lowerLimit+2))+lowerLimit);
+    }
+
+    generateTrueOrFalse(){
+        let num = this.generateRandomNumber(1, 100);
+
+        if(num%2 == 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
     GenerateOddRandomNumber(lowerLimit:number, upperLimit:number){
         let random = Math.floor((Math.random()*(upperLimit-lowerLimit+2))+lowerLimit);
         if(random%2 === 0){

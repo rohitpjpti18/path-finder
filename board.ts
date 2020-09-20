@@ -1,8 +1,8 @@
-import NodeSet from "./utilities/node";
-import EdgeSet from "./utilities/edges";
-import ColorNode from "./color";
+import NodeSet from "./utilities/NodeSet";
+import EdgeSet from "./utilities/EdgeSet";
+import ColorNode from "./Color";
 import BreadthFirstSearch from "./algorithms/BreadthFirstSearch";
-import RecursiveDivision from "./mazes/recursivedivision";
+import RecursiveDivision from "./mazes/RecursiveDivision";
 import DepthFirstSearch from "./algorithms/DepthFirstSearch";
 
 class Board{
@@ -303,14 +303,9 @@ class Board{
 
     reCompute(algId:string, sor:number ,dest:number){
         if(this.algoID == 1){
-            this.resetNodes();
-            this.colorHandler.recolorAllNodes(this.nodes.nodeList);
+            let bfs = new BreadthFirstSearch(this.nodes.nodeList, this.edges.edgeList, this.source, this.destination, this.colorHandler);
 
-            this.edges.computeUnweightedEdges(this.nodes.nodeList, this.nodes.column);
-            this.bfs = new BreadthFirstSearch(this.nodes.nodeList, this.edges.edgeList, this.source, this.destination, this.colorHandler);
-
-            this.bfs.computeQuickBFS(sor, dest);
-            this.colorHandler.findQuickPath(this.nodes.nodeList, dest, sor)
+            bfs.quickExecute(this, sor, dest);
         }
 
         if(this.algoID == 2){
@@ -329,19 +324,9 @@ class Board{
 
     async algoHandler(algId:string){
         if(this.algoID == 1){
-            this.algoInProgress = true;
+            let bfs = new BreadthFirstSearch(this.nodes.nodeList, this.edges.edgeList, this.source, this.destination, this.colorHandler);
 
-            this.resetNodes();
-            this.colorHandler.recolorAllNodes(this.nodes.nodeList);
-            
-            this.edges.computeUnweightedEdges(this.nodes.nodeList, this.nodes.column);
-            this.bfs = new BreadthFirstSearch(this.nodes.nodeList, this.edges.edgeList, this.source, this.destination, this.colorHandler);
-
-            await this.bfs.computeBFS(this.source);
-            await this.colorHandler.findPath(this.nodes.nodeList, this.destination, this.source);
-
-            this.algoInProgress = false;
-            this.algoExecuted = true;
+            await bfs.execute(this);
         }
 
         if(this.algoID == 2){

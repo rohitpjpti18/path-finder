@@ -1,6 +1,6 @@
-import Board from "../board";
-import ColorNode from "../color";
-import NodeSet from "../utilities/node";
+import Board from "../Board";
+import ColorNode from "../Color";
+import NodeSet from "../utilities/NodeSet";
 
 class DepthFirstSearch{
     nodes:any[];

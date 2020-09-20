@@ -2,7 +2,7 @@ var path = require('path');
 
 module.exports = {
     entry: {
-        main: './app.ts',
+        main: './App.ts',
     },
     resolve: {
         extensions: [".webpack.js", ".web.js", ".js", ".ts"]

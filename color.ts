@@ -1,4 +1,4 @@
-import NodeSet from "./utilities/node";
+import NodeSet from "./utilities/NodeSet";
 
 class ColorNode{
     speed: number;

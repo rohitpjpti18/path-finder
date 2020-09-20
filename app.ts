@@ -1,5 +1,6 @@
-import Board from './board';
-import RecursiveDivision from './mazes/recursivedivision';
+import Board from './Board';
+import RandomMaze from './mazes/RandomMaze';
+import RecursiveDivision from './mazes/RecursiveDivision';
 
 let temp1 = 23;
 let temp2 = 59;
@@ -31,11 +32,41 @@ let startExec = document.getElementById("startExec");
 let wal = document.getElementById("wall");
 let clear = document.getElementById("clear");
 
+// get all maze buttons tag
+let rdi = document.getElementById("rdi");
+let rdv = document.getElementById("rdv");
+let rdh = document.getElementById("rdh");
+let rwl = document.getElementById("rwl");
+
+
+// get all algorithm buttons tag
 let dfs = document.getElementById("dfs");
 let bfs = document.getElementById("bfs");
 
+
+rdi.onclick = ()=>{
+    let rd = new RecursiveDivision(board);
+    rd.execute(1);
+}
+
+rdv.onclick = ()=>{
+    let rd = new RecursiveDivision(board);
+    rd.execute(2);
+}
+
+rdh.onclick = ()=>{
+    let rd = new RecursiveDivision(board);
+    rd.execute(3);
+}
+
+rwl.onclick = ()=>{
+    let rw = new RandomMaze(board, board.colorHandler);
+    rw.execute();
+}
+
+
 dfs.onclick = ()=>{
-    console.log("dfs worked!!");
+    //console.log("dfs worked!!");
     board.algoID = 2;
 }
 
@@ -44,26 +75,16 @@ bfs.onclick = ()=>{
 }
 
 
+
+
+
+
 startExec.onclick = ()=>{
-    console.log("startExec worked!!");
+    //console.log("startExec worked!!");
     board.algoHandler("bfs");
 }
 
 
-async function handleMazeBuilding(mazeType:string){
-    if(mazeType == "recursive-division"){
-        let mazeAlgo = new RecursiveDivision(board);
-        mazeAlgo.recursiveDivisionMaze();
-    }
-}
-async function handleAlgorithms(){
-   board.algoHandler("bfs");
-}
-
-
-wal.onclick = ()=>{
-    handleMazeBuilding("recursive-division");
-}
 
 clear.onclick = ()=>{
     board.clearBoard();
