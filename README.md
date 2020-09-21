@@ -5,6 +5,8 @@ https://rohitpjpti18.github.io/path-finder
 ## Welcome to pathfinder!
 Create your own maze and watch as algorithms find a path through them.
 
+![introduction](images/screenshot1.png)
+
 
 ## Getting Started ....
 Just click and drag on the canvas and it will..
@@ -17,7 +19,3 @@ Just click and drag on the canvas and it will..
 - click on select a algorithms to choose from options to find a path between source and destination.
 
 ![getting started image2](images/how-to-choose-an-algorithm.gif)
-
-
-
-Inspired from the work of clement mihailescu
