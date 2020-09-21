@@ -174,6 +174,8 @@ class Board{
                     return;
                 }
 
+
+
                 this.leftClicked = true;
                 if(currentCell.id !== this.source.toString() && currentCell.id !== this.destination.toString()){
                     let id = parseInt(currentCell.id);
@@ -322,89 +324,39 @@ class Board{
 
     }
 
-    async algoHandler(algId:string){
-        if(this.algoID == 1){
-            let bfs = new BreadthFirstSearch(this.nodes.nodeList, this.edges.edgeList, this.source, this.destination, this.colorHandler);
+    async algoHandler(){
+        switch(this.algoID){
+            case 1:
+                let bfs = new BreadthFirstSearch(this.nodes.nodeList, this.edges.edgeList, this.source, this.destination, this.colorHandler);
+                await bfs.execute(this);
+                break;
+            case 2:
+                this.algoInProgress = true;
 
-            await bfs.execute(this);
+                this.resetNodes();
+                this.colorHandler.recolorAllNodes(this.nodes.nodeList);
+    
+                this.edges.computeUnweightedEdges(this.nodes.nodeList, this.nodes.column);
+                let dfs = new DepthFirstSearch(this.nodes.nodeList, this.edges.edgeList, this.source, this.destination, this.colorHandler);
+                this.nodes.nodeList[this.source][1] = 1;
+                await this.colorHandler.updateNodeColor(this.nodes.nodeList[this.source]);
+                await dfs.computeDFS(this.source);
+                await this.colorHandler.findPath(this.nodes.nodeList, this.destination, this.source);
+    
+                this.algoInProgress = false;
+                this.algoExecuted = true;
+                break;
+            default:
+                alert("You haven't selected an algorithm or the algorithm you selected is not yet implemented. Please choose a valid algorithm.");
+        }
+        if(this.algoID == 1){
+
         }
 
         if(this.algoID == 2){
-            this.algoInProgress = true;
-
-            this.resetNodes();
-            this.colorHandler.recolorAllNodes(this.nodes.nodeList);
-
-            this.edges.computeUnweightedEdges(this.nodes.nodeList, this.nodes.column);
-            let dfs = new DepthFirstSearch(this.nodes.nodeList, this.edges.edgeList, this.source, this.destination, this.colorHandler);
-            this.nodes.nodeList[this.source][1] = 1;
-            await this.colorHandler.updateNodeColor(this.nodes.nodeList[this.source]);
-            await dfs.computeDFS(this.source);
-            await this.colorHandler.findPath(this.nodes.nodeList, this.destination, this.source);
-
-            this.algoInProgress = false;
-            this.algoExecuted = true;
-        }
-    }
-
-
-
-/*
-    GenerateOddRandomNumber(lowerLimit:number, upperLimit:number){
-        let random = Math.floor((Math.random()*(upperLimit-lowerLimit+2))+lowerLimit);
-        if(random%2 === 0){
-            return random-1;
-        }
-        return random;
-    }
-
-    GenerateEvenRandomNumber(lowerLimit:number, upperLimit:number){
-        let random = Math.floor((Math.random()*(upperLimit-lowerLimit+1))+lowerLimit);
-        if(random%2 !== 0){
-            if(random !== upperLimit)
-                return random+1;
-            else
-                return random-1;
-        }
-        return random;
-    }
-
-    async recursiveDivision(rowStartPos:number, rowEndPos:number, colStartPos:number, colEndPos:number){
-        if((rowEndPos>rowStartPos+1)&&(colEndPos>colStartPos+1)){
-            if((rowEndPos-rowStartPos)<(colEndPos-colStartPos)){
-                let divider = this.GenerateEvenRandomNumber(colStartPos, colEndPos);
-                for(let i = rowStartPos; i<=rowEndPos; i++){
-                    let currentIndex = this.nodes.resolveRowColumn(i, divider);
-                    await this.handleWallBuildingHauleHaule(currentIndex);
-                }
-                let openRow = this.GenerateOddRandomNumber(rowStartPos, rowEndPos);
-                let openNode = this.nodes.resolveRowColumn(openRow, divider);
-                await this.handleWallBuildingHauleHaule(openNode);
-
-
-                await this.recursiveDivision(rowStartPos, rowEndPos, colStartPos, divider-1);
-                await this.recursiveDivision(rowStartPos, rowEndPos, divider+1, colEndPos);
-            }
-            else{
-                let divider = this.GenerateEvenRandomNumber(rowStartPos, rowEndPos);
-                for(let i = colStartPos; i<=colEndPos; i++){
-                    let currentIndex = this.nodes.resolveRowColumn(divider, i);
-                    await this.handleWallBuildingHauleHaule(currentIndex);
-                }
-                let openCol = this.GenerateOddRandomNumber(colStartPos, colEndPos);
-                let openNode = this.nodes.resolveRowColumn(divider, openCol);
-                await this.handleWallBuildingHauleHaule(openNode);
-    
-                await this.recursiveDivision(rowStartPos, divider-1, colStartPos, colEndPos);
-                await this.recursiveDivision(divider+1, rowEndPos, colStartPos, colEndPos);
-            }
 
         }
-
     }
-*/
-
-
 }
 
 

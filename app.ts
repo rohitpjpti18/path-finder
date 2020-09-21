@@ -81,7 +81,7 @@ bfs.onclick = ()=>{
 
 startExec.onclick = ()=>{
     //console.log("startExec worked!!");
-    board.algoHandler("bfs");
+    board.algoHandler();
 }
 
 
