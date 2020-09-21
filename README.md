@@ -19,3 +19,7 @@ Just click and drag on the canvas and it will..
 - click on select a algorithms to choose from options to find a path between source and destination.
 
 ![getting started image2](images/how-to-choose-an-algorithm.gif)
+
+
+
+Inspired from the work of Clement Mihailescu.
