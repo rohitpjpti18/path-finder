@@ -38,6 +38,18 @@ class NodeSet{
         return this.nodeList[index][4];
     }
 
+
+    getNeighbours(index:number):number[]{
+        let neighbours:number[] = [];
+
+        if(index>=this.column) neighbours.push(index-this.column);
+        if(index < this.nodeList.length - this.column) neighbours.push(index+this.column);
+        if(index%this.column != 0) neighbours.push(index-1);
+        if(index == 0 || (index+1)%this.column != 0) neighbours.push(index+1);
+
+        return neighbours;
+    }
+
     // if node is a wall then change it to default and vice-versa;
     setWallStatus(index:number){
         this.nodeList[index][4] = !this.nodeList[index][4];
