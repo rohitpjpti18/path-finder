@@ -1,7 +1,6 @@
 import NodeSet from "./utilities/NodeSet";
 import EdgeSet from "./utilities/EdgeSet";
 import ColorNode from "./Color";
-import Random from "./utilities/Random";
 import BreadthFirstSearch from "./algorithms/BreadthFirstSearch";
 import DepthFirstSearch from "./algorithms/DepthFirstSearch";
 
