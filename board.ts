@@ -1,8 +1,8 @@
 import NodeSet from "./utilities/NodeSet";
 import EdgeSet from "./utilities/EdgeSet";
 import ColorNode from "./Color";
+import Random from "./utilities/Random";
 import BreadthFirstSearch from "./algorithms/BreadthFirstSearch";
-import RecursiveDivision from "./mazes/RecursiveDivision";
 import DepthFirstSearch from "./algorithms/DepthFirstSearch";
 
 class Board{
@@ -102,6 +102,8 @@ class Board{
         await this.colorHandler.updateNodeColor(this.nodes.nodeList[index]);
     }
 
+
+
     clearPath(){
 
         this.algoExecuted = false;
@@ -118,6 +120,8 @@ class Board{
 
         this.colorHandler.recolorAllNodes(this.nodes.nodeList);
     }
+
+
 
     resetNodes(){
         
