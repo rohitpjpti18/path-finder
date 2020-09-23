@@ -91,8 +91,8 @@ class BreadthFirstSearch{
     async execute(board:Board){
         board.algoInProgress = true;
 
-        board.resetNodes();
-        this.colorhandler.recolorAllNodes(this.nodes);
+        board.nodes.resetNodesForUA();
+        this.colorhandler.recolorAllNodes(this.nodes, board.source, board.destination);
         
         board.edges.computeUnweightedEdges(board.nodes.nodeList, board.nodes.column);
         this.edges = board.edges.edgeList;
@@ -104,8 +104,8 @@ class BreadthFirstSearch{
     }
 
     quickExecute(board:Board, currentSor:number, currentDest:number){
-        board.resetNodes();
-        board.colorHandler.recolorAllNodes(board.nodes.nodeList);
+        board.nodes.resetNodesForUA();
+        board.colorHandler.recolorAllNodes(board.nodes.nodeList, board.source, board.destination);
 
         board.edges.computeUnweightedEdges(board.nodes.nodeList, board.nodes.column);
         this.edges = board.edges.edgeList;

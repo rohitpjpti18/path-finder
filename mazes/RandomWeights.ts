@@ -3,7 +3,7 @@ import ColorNode from "../Color";
 import Random from "../utilities/Random";
 
 
-class RandomMaze{
+class RandomWeights{
     board: Board;
     random: Random;
     color: ColorNode;
@@ -14,7 +14,7 @@ class RandomMaze{
         this.random = new Random();
     }
     
-    generateRandomMaze(){
+    generateRandomWeights(){
         this.board.clearBoard();
         this.board.algoInProgress = true;
         for(let i = 0; i<this.board.nodes.nodeList.length; i++){
@@ -23,7 +23,7 @@ class RandomMaze{
                 if(random){
                     let random2 = this.random.generateTrueOrFalse();
                     if(random2)
-                        this.board.nodes.setNodeToWall(i);
+                        this.board.nodes.addWeight(i);
                 }
             }
         }
@@ -33,9 +33,9 @@ class RandomMaze{
     }
 
     execute(){
-        this.generateRandomMaze();
+        this.generateRandomWeights();
     }
 }
 
 
-export default RandomMaze;
+export default RandomWeights;

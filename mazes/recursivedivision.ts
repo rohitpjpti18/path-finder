@@ -41,7 +41,7 @@ class RecursiveDivision{
             this.board.nodes.setNodeToDefault(destinationNeighbours[i]);
         }
 
-        this.board.colorHandler.recolorAllNodes(this.board.nodes.nodeList);
+        this.board.colorHandler.recolorAllNodes(this.board.nodes.nodeList, this.board.source, this.board.destination);
     }
 
     async buildBorder(){
