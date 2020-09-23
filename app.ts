@@ -6,8 +6,8 @@ import RecursiveDivision from './mazes/RecursiveDivision';
 
 let temp1 = 23;
 let temp2 = 59;
-let temp3 = 629;
-let temp4 = 648;
+let temp3 = 600;
+let temp4 = 636;
 if (navigator.userAgent.match(/Android/i) 
         || navigator.userAgent.match(/webOS/i) 
         || navigator.userAgent.match(/iPhone/i)  
