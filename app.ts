@@ -5,7 +5,7 @@ import RandomWeigths from './mazes/RandomWeights';
 import RecursiveDivision from './mazes/RecursiveDivision';
 
 let temp1 = 23;
-let temp2 = 61;
+let temp2 = 59;
 let temp3 = 629;
 let temp4 = 648;
 if (navigator.userAgent.match(/Android/i) 
