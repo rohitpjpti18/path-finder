@@ -1,3 +1,4 @@
+import Board from "./Board";
 import NodeSet from "./utilities/NodeSet";
 
 class ColorNode{
@@ -25,7 +26,7 @@ class ColorNode{
     }
 
 
-    async updateNodeColor(node:[string, number, number, number, boolean]){
+    async updateNodeColor(node:[string, number, number, number, boolean, boolean]){
         var cell = document.getElementById(node[0]);
 
         if(node[1] == 0){
@@ -44,7 +45,34 @@ class ColorNode{
         await this.sleep();
     }
 
-    recolorAllNodes(nodeList: any[]){
+    recolorAllNodes(nodeList: any[], source:number, destination:number){
+        for(let i:number=0; i<nodeList.length; i++){
+            let cell = document.getElementById(nodeList[i][0]);
+            if(nodeList[i][1] == 0){
+                this.updateCellColor(cell, "white", this.defaultColor);
+            }
+            if(nodeList[i][1] == 1){
+                this.updateCellColor(cell, this.visitedColor, this.defaultColor);
+            }
+            if(nodeList[i][1] == 2){
+                this.updateCellColor(cell, this.pathColor, this.defaultColor);
+            }
+            if(nodeList[i][1] == 3){
+                this.updateCellColor(cell, this.wallColor, this.wallColor);
+            }
+
+            if(nodeList[i][5]){
+                cell.innerHTML = "W";
+            }else{
+                if(i != source && i != destination) cell.innerHTML = "";
+                if(i == source) cell.innerHTML = "$";
+                if(i == destination) cell.innerHTML = "O";
+            }
+        }
+    }
+
+
+    justRecolor(nodeList: any[]){
         for(let i:number=0; i<nodeList.length; i++){
             let cell = document.getElementById(nodeList[i][0]);
             if(nodeList[i][1] == 0){
@@ -63,7 +91,7 @@ class ColorNode{
     }
 
 
-    async findPath(nodes:[string, number, number, number, boolean][], destination:number, source:number){
+    async findPath(nodes:[string, number, number, number, boolean, boolean][], destination:number, source:number){
         let path = [];
         let currentNode = destination;
         while(nodes[currentNode][2] != -1){
@@ -83,7 +111,7 @@ class ColorNode{
     }
 
 
-    findQuickPath(nodes:[string, number, number, number, boolean][], destination:number, source:number){
+    findQuickPath(nodes:[string, number, number, number, boolean, boolean][], destination:number, source:number){
         let path = [];
         let currentNode = destination;
         while(nodes[currentNode][2] != -1){
@@ -97,7 +125,7 @@ class ColorNode{
             path.push(currentNode);
         }
 
-        this.recolorAllNodes(nodes);
+        this.recolorAllNodes(nodes, source, destination);
     }
 }
 

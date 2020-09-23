@@ -3,6 +3,7 @@ import EdgeSet from "./utilities/EdgeSet";
 import ColorNode from "./Color";
 import BreadthFirstSearch from "./algorithms/BreadthFirstSearch";
 import DepthFirstSearch from "./algorithms/DepthFirstSearch";
+import Dijkstra from "./algorithms/DijkstrasAlgorithm";
 
 class Board{
     nodes:NodeSet;
@@ -28,6 +29,7 @@ class Board{
     overlapped: boolean;
     algoExecuted: boolean;
     algoInProgress: boolean;
+    addWeight: boolean;
     algoID: number;
 
     previousCol: boolean;
@@ -40,6 +42,7 @@ class Board{
         this.table = document.createElement("table");
         this.source = start;
         this.destination = end;
+        this.addWeight = false;
         this.algoID = -1;
 
 
@@ -83,18 +86,9 @@ class Board{
         this.eventListeners();
     }
 
-    handleWallBuilding(index:number){
-        if(index != this.source && index != this.destination)
-            this.nodes.setWallStatus(index);
-        else{
-            this.nodes.nodeList[index][4] = false;
-        }
-        this.colorHandler.recolorAllNodes(this.nodes.nodeList);
-    }
-
     async handleWallBuildingHauleHaule(index:number){
         if(index != this.source && index != this.destination)
-            this.nodes.setWallStatus(index);
+            this.nodes.handleWallSwitch(index);
         else{
             this.nodes.nodeList[index][4] = false;
         }
@@ -102,57 +96,11 @@ class Board{
     }
 
 
-
-    clearPath(){
-
-        this.algoExecuted = false;
-
-        for(let i = 0; i<this.nodes.nodeList.length; i++){
-            if(this.nodes.nodeList[i][4])
-                this.nodes.nodeList[i][1] = 3;
-            else
-                this.nodes.nodeList[i][1] = 0;
-
-            this.nodes.nodeList[i][2] = -1;
-            this.nodes.nodeList[i][3] = -1;
-        }
-
-        this.colorHandler.recolorAllNodes(this.nodes.nodeList);
-    }
-
-
-
-    resetNodes(){
-        
-        for(let i = 0; i<this.nodes.nodeList.length; i++){
-            if(this.nodes.nodeList[i][4])
-                this.nodes.nodeList[i][1] = 3;
-            else
-                this.nodes.nodeList[i][1] = 0;
-
-            this.nodes.nodeList[i][2] = -1;
-            this.nodes.nodeList[i][3] = -1;
-        }
-
-        this.colorHandler.recolorAllNodes(this.nodes.nodeList);
-    }
-
-
     clearBoard(){
-
         this.algoExecuted = false;
 
-        for(let i = 0; i<this.nodes.nodeList.length; i++){
-            if(this.nodes.nodeList[i][4]){
-                this.nodes.setNodeToDefault(i)
-            }
-            else{
-                this.nodes.nodeList[i][1] = 0;
-            }
-            this.nodes.nodeList[i][2] = -1;
-            this.nodes.nodeList[i][3] = -1;
-        }
-        this.colorHandler.recolorAllNodes(this.nodes.nodeList);
+        this.nodes.resetAllNodes();
+        this.colorHandler.recolorAllNodes(this.nodes.nodeList, this.source, this.destination);
     }
 
     eventListeners(){
@@ -182,7 +130,17 @@ class Board{
                 this.leftClicked = true;
                 if(currentCell.id !== this.source.toString() && currentCell.id !== this.destination.toString()){
                     let id = parseInt(currentCell.id);
-                    this.handleWallBuilding(id);
+
+                    // console.log(this.addWeight);
+
+                    if(this.addWeight){
+                        this.nodes.handleWeightSwitch(id);
+                        this.colorHandler.recolorAllNodes(this.nodes.nodeList, this.source, this.destination);
+                    }else{
+                        this.nodes.handleWallSwitch(id);
+                        this.colorHandler.recolorAllNodes(this.nodes.nodeList, this.source, this.destination);
+                    }
+
                     return;
                 }
                 if(currentCell.id === this.source.toString()){
@@ -204,7 +162,17 @@ class Board{
                 if(this.leftClicked && (!this.startNodeSelected && !this.endNodeSelected)){
                     if(currentCell.id !== this.source.toString() || currentCell.id !== this.destination.toString()){
                         let id = parseInt(currentCell.id);
-                        this.handleWallBuilding(id);
+                        if(!this.addWeight){
+                            this.nodes.handleWallSwitch(id);
+                            this.colorHandler.recolorAllNodes(this.nodes.nodeList, this.source, this.destination);
+                        }
+                    }
+                    else{
+                        let id = parseInt(currentCell.id);
+                        if(!this.addWeight){
+                            this.nodes.setNodeToDefault(id);
+                            this.colorHandler.recolorAllNodes(this.nodes.nodeList, this.source, this.destination);
+                        }
                     }
                     return;
                 }
@@ -214,7 +182,10 @@ class Board{
                     if(this.nodes.isWall(parseInt(currentCell.id))){
                         this.overlapped = true;
                         this.nodes.setNodeToDefault(parseInt(currentCell.id)); 
-                        this.colorHandler.recolorAllNodes(this.nodes.nodeList);
+                        if(this.startNodeSelected)
+                            this.colorHandler.recolorAllNodes(this.nodes.nodeList, parseInt(currentCell.id), this.destination);
+                        else
+                            this.colorHandler.recolorAllNodes(this.nodes.nodeList, this.source, parseInt(currentCell.id));
                     }
 
 
@@ -242,14 +213,12 @@ class Board{
                         currentCell.innerHTML = this.dSymbol;
                         return;
                     }
-
-
                 }
 
 
                 if(this.leftClicked && this.overlapped){
                     this.nodes.setNodeToWall(parseInt(currentCell.id));
-                    this.colorHandler.recolorAllNodes(this.nodes.nodeList);
+                    this.colorHandler.justRecolor(this.nodes.nodeList);
                     this.overlapped = false;
                 }
 
@@ -267,7 +236,7 @@ class Board{
                 if(this.startNodeSelected){
                     if(this.nodes.isWall(parseInt(currentCell.id))){
                         this.nodes.setNodeToDefault(parseInt(currentCell.id));
-                        this.colorHandler.recolorAllNodes(this.nodes.nodeList);
+                        this.colorHandler.recolorAllNodes(this.nodes.nodeList, this.source, this.destination);
                         this.overlapped = false;
                     }
                     if(currentCell.id == this.destination.toString()){
@@ -285,7 +254,7 @@ class Board{
                 if(this.endNodeSelected){
                     if(this.nodes.isWall(parseInt(currentCell.id))){
                         this.nodes.setNodeToDefault(parseInt(currentCell.id));
-                        this.colorHandler.recolorAllNodes(this.nodes.nodeList);
+                        this.colorHandler.recolorAllNodes(this.nodes.nodeList, this.source, this.destination);
                         this.overlapped = false;
                     }
                     if(currentCell.id == this.source.toString()){
@@ -314,8 +283,8 @@ class Board{
         }
 
         if(this.algoID == 2){
-            this.resetNodes();
-            this.colorHandler.recolorAllNodes(this.nodes.nodeList);
+            this.nodes.resetNodesForUA();
+            this.colorHandler.recolorAllNodes(this.nodes.nodeList, this.source, this.destination);
             
             this.edges.computeUnweightedEdges(this.nodes.nodeList, this.nodes.column);
             let dfs = new DepthFirstSearch(this.nodes.nodeList, this.edges.edgeList, this.source, this.destination, this.colorHandler);
@@ -323,6 +292,10 @@ class Board{
             this.colorHandler.findQuickPath(this.nodes.nodeList, dest, sor);
             dfs.computeQuickDFS(sor, dest);
             this.colorHandler.findQuickPath(this.nodes.nodeList, dest, sor);
+        }
+        if(this.algoID == 3){
+            let dijkstra = new Dijkstra(this, this.colorHandler);
+            dijkstra.quickExecute(sor, dest);
         }
 
     }
@@ -336,8 +309,8 @@ class Board{
             case 2:
                 this.algoInProgress = true;
 
-                this.resetNodes();
-                this.colorHandler.recolorAllNodes(this.nodes.nodeList);
+                this.nodes.resetNodesForUA();
+                this.colorHandler.recolorAllNodes(this.nodes.nodeList, this.source, this.destination);
     
                 this.edges.computeUnweightedEdges(this.nodes.nodeList, this.nodes.column);
                 let dfs = new DepthFirstSearch(this.nodes.nodeList, this.edges.edgeList, this.source, this.destination, this.colorHandler);
@@ -349,15 +322,13 @@ class Board{
                 this.algoInProgress = false;
                 this.algoExecuted = true;
                 break;
+            case 3:
+                let dijkstra = new Dijkstra(this, this.colorHandler);
+                await dijkstra.execute();
+                break;
+                
             default:
                 alert("You haven't selected an algorithm or the algorithm you selected is not yet implemented. Please choose a valid algorithm.");
-        }
-        if(this.algoID == 1){
-
-        }
-
-        if(this.algoID == 2){
-
         }
     }
 }

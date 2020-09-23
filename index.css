@@ -15,17 +15,17 @@ body{
 }
 
 .start-mark{
-    background-color: #4a9461;
+    color: #4a9461;
 }
 
 .end-mark{
-    background-color: #944a4a;
+    color: #944a4a;
 }
 
 table{
     border-collapse: collapse;
     border-spacing: 0;
-    border: 1px solid #c5e2db;
+    border: 3px solid #c5e2db;
     width: max-content;
 }
 
@@ -34,7 +34,7 @@ table{
     display: inline-block;
     height: 28px;
     width: 28px;
-    border: 0.5px solid #4a5e58; 
+    border: 1px solid #4a5e58; 
 }
 
 .disable{

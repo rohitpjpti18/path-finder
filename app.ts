@@ -1,11 +1,13 @@
+import Dijkstra from './algorithms/DijkstrasAlgorithm';
 import Board from './Board';
 import RandomMaze from './mazes/RandomMaze';
+import RandomWeigths from './mazes/RandomWeights';
 import RecursiveDivision from './mazes/RecursiveDivision';
 
 let temp1 = 23;
-let temp2 = 59;
-let temp3 = 61;
-let temp4 = 380;
+let temp2 = 61;
+let temp3 = 12;
+let temp4 = 34;
 if (navigator.userAgent.match(/Android/i) 
         || navigator.userAgent.match(/webOS/i) 
         || navigator.userAgent.match(/iPhone/i)  
@@ -28,6 +30,21 @@ const destination = temp4;
 let board = new Board(row, column, source, destination);
 
 
+let weights = document.getElementById("weights") as HTMLInputElement;
+
+
+weights.onclick = () =>{
+    if(weights.checked == true){
+        board.addWeight = true;
+    }else{
+        board.addWeight = false;
+    }
+}
+
+
+
+
+
 let startExec = document.getElementById("startExec");
 let wal = document.getElementById("wall");
 let clear = document.getElementById("clear");
@@ -37,11 +54,13 @@ let rdi = document.getElementById("rdi");
 let rdv = document.getElementById("rdv");
 let rdh = document.getElementById("rdh");
 let rwl = document.getElementById("rwl");
+let rweight = document.getElementById("rweight");
 
 
 // get all algorithm buttons tag
 let dfs = document.getElementById("dfs");
 let bfs = document.getElementById("bfs");
+let dijkstra = document.getElementById("dijkstra");
 
 
 rdi.onclick = ()=>{
@@ -64,17 +83,25 @@ rwl.onclick = ()=>{
     rw.execute();
 }
 
+rweight.onclick = ()=>{
+    let ri = new RandomWeigths(board, board.colorHandler);
+    ri.execute();
+}
 
 dfs.onclick = ()=>{
     //console.log("dfs worked!!");
-    alert("Depth-first search is an algorithm for traversing or searching tree or graph data structures. The algorithm starts at the root node and explores as far as possible along each branch before backtracking. DFS is only for unweighted nodes and doesnot neccesirly find the shortest path.");
     board.algoID = 2;
 }
 
 bfs.onclick = ()=>{
-    alert("Breadth-first search is an algorithm for traversing or searching tree or graph data structures. It starts at the tree root, and explores all of the neighbor nodes at the present depth prior to moving on to the nodes at the next depth level. Its guarenteed to find the shortest path");
     board.algoID = 1;
 }
+
+dijkstra.onclick = ()=>{
+    board.algoID = 3;
+}
+
+
 
 
 

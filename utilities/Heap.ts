@@ -1,18 +1,30 @@
 class Heap{
-    private size:number;
-    private items:number[];
+    private items:any[];
+    private heapToNode:number[];
+    private nodeToHeap:number[];
 
     constructor(items:number[]){
-        this.items = items;
-        this.size = items.length;
+        for(let i = 0; i<items.length; i++){
+            this.heapToNode.push(0);
+            this.nodeToHeap.push(0);
+        }
+        for(let i = 0; i<items.length; i++){
+            this.add(items[i], i);
+        }
+    }
+
+    getTheBestNode(){
+        let node = this.poll();
+
+        return node;
     }
 
     private getLeftChildIndex(parentIndex:number):number{return 2*parentIndex+1;}
     private getRightChildIndex(parentIndex:number):number{return 2*parentIndex + 2;}
     private getParentIndex(childIndex:number){return (childIndex-1)/2;}
 
-    private hasLeftChild(index:number):boolean{return this.getLeftChildIndex(index)<this.size;}
-    private hasRightChild(index:number):boolean{return this.getRightChildIndex(index)<this.size;}
+    private hasLeftChild(index:number):boolean{return this.getLeftChildIndex(index)<this.items.length;}
+    private hasRightChild(index:number):boolean{return this.getRightChildIndex(index)<this.items.length;}
     private hasParent(index:number):boolean{return this.getParentIndex(index) >= 0;}
 
     private leftChild(index:number):number{ return this.items[this.getLeftChildIndex(index)];}
@@ -32,32 +44,68 @@ class Heap{
     public poll():number{
         let item = this.items[0];
 
-        this.items[0] = this.items[this.size-1];
-        this.size--;
+        let bestNode = this.heapToNode[0];
+        this.items[0] = this.items[this.items.length-1];
+        this.update(this.heapToNode[0], this.items.length-1);
+        this.update(this.heapToNode[this.items.length-1], -1)
         this.heapifyDown(0);
 
-        return item;
+        return bestNode;
     } 
 
+    private update(node:number, heap:number){
+        if(heap == -1){
+            this.nodeToHeap[node] = -1;
+            this.heapToNode[this.items.length-1] = -1;
+            return;
+        }
+        this.nodeToHeap[node] = heap;
+        this.heapToNode[heap] = node;
+    }
 
-    public add(item:number){
-        this.items[this.size] = item;
-        this.items[this.size] = item;
+    public updateHeap(node){
+        
+    }
 
-        this.size++;
+
+    public add(item:any, nodeValue:number){
+        this.items.push(item);
+        this.update(nodeValue ,this.items.length-1)
         this.heapifyUp();
     }
 
     public heapifyUp(){
-        let index = this.size-1;
+        let index = this.items.length-1;
 
         while(this.hasParent(index) && this.parent(index) > this.items[index]){
+            // update both heapToNode and nodeToHeap
+            this.update(this.heapToNode[index], this.getParentIndex(index));
+            this.update(this.heapToNode[this.getParentIndex(index)], index);
 
+            this.swap(this.getParentIndex(index), index);
+            index = this.getParentIndex(index);
         }
     }
 
     public heapifyDown(index:number){
+        while(this.hasLeftChild(index)){
+            let smallerChildIndex = this.getLeftChildIndex(index);
 
+            if(this.hasRightChild(index) && this.rightChild(index)<this.leftChild(index)){
+                smallerChildIndex = this.getRightChildIndex(index);
+            }
+
+            if(this.items[index] < this.items[smallerChildIndex]){
+                break;
+            }
+            else{
+                this.update(this.heapToNode[index], smallerChildIndex);
+                this.update(this.heapToNode[smallerChildIndex], index);
+
+                this.swap(index, smallerChildIndex);
+            }
+            index = smallerChildIndex;
+        }
     }
 
 }

@@ -31,6 +31,7 @@
                     <a class="dropdown-item" id="rdv">Recursive Divison (Vertical)</a>
                     <a class="dropdown-item" id="rdh">Recursive Divison (Horizontal)</a>
                     <a class="dropdown-item" id="rwl">Random walls</a>
+                    <a class="dropdown-item" id="rweight">Random Weights</a>
                 </div>
             </li>
             &nbsp;
@@ -41,9 +42,17 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
                         <a class="dropdown-item" id="bfs">Breadth First Search</a>
                         <a class="dropdown-item" id="dfs">Depth First Search</a>
-                        <a class="dropdown-item" id="start"><del>Dijkstra's algorithm</del></a>
+                        <a class="dropdown-item" id="dijkstra">Dijkstra's algorithm</a>
                         <a class="dropdown-item" id="start"><del>A-star algorithm</del></a>
                     </div>
+            </li>
+
+            <li>
+                <div class="nav-link">
+                    <input type="checkbox" id="weights">
+                    <label class="nav-item" for="weights">Add weights</label>
+                </div>
+
             </li>
           </ul>
           <span class="navbar-text">
@@ -67,7 +76,7 @@
                         <ul>
                             <li><b>$</b>-Source</li>
                             <li><b>O</b>-Destination</li>
-                            <li><b>W</b>-weight</li>
+                            <li><b>W</b>-Weighted Node</li>
                         </ul>
                     </div>
                 </div>
