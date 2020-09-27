@@ -179,15 +179,9 @@ class RecursiveDivision{
 
 
     async execute(id:number){
-        if(id == 1){
-            await this.recursiveDivisionMaze();
-        }
-        if(id == 2){
-            await this.recursiveDivisionVerticalMaze();
-        }
-        if(id == 3){
-            await this.recursiveDivisionHorizontalMaze();
-        }
+        if(id == 1) await this.recursiveDivisionMaze();
+        if(id == 2) await this.recursiveDivisionVerticalMaze();
+        if(id == 3) await this.recursiveDivisionHorizontalMaze();
     }
 }
 
