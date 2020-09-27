@@ -4,10 +4,10 @@ import RandomMaze from './mazes/RandomMaze';
 import RandomWeigths from './mazes/RandomWeights';
 import RecursiveDivision from './mazes/RecursiveDivision';
 
-let temp1 = 23;
+let temp1 = 27;
 let temp2 = 59;
-let temp3 = 600;
-let temp4 = 636;
+let temp3 = 726;
+let temp4 = 746;
 if (navigator.userAgent.match(/Android/i) 
         || navigator.userAgent.match(/webOS/i) 
         || navigator.userAgent.match(/iPhone/i)  
@@ -25,6 +25,8 @@ const row = temp1;
 const column = temp2;
 const source = temp3;
 const destination = temp4;
+
+let disableButton = false;
 
 
 let board = new Board(row, column, source, destination);
@@ -64,28 +66,53 @@ let dijkstra = document.getElementById("dijkstra");
 
 
 rdi.onclick = ()=>{
+    if(disableButton){
+        return;
+    }
+    disableButton = true;
     let rd = new RecursiveDivision(board);
     rd.execute(1);
+    disableButton = false;
 }
 
 rdv.onclick = ()=>{
+    if(disableButton){
+        return;
+    }
+    disableButton = true;
     let rd = new RecursiveDivision(board);
     rd.execute(2);
+    disableButton = false;
 }
 
 rdh.onclick = ()=>{
+    if(disableButton){
+        return;
+    }
+    disableButton = true;
     let rd = new RecursiveDivision(board);
     rd.execute(3);
+    disableButton = false;
 }
 
 rwl.onclick = ()=>{
+    if(disableButton){
+        return;
+    }
+    disableButton = true;
     let rw = new RandomMaze(board, board.colorHandler);
     rw.execute();
+    disableButton = false;
 }
 
 rweight.onclick = ()=>{
+    if(disableButton){
+        return;
+    }
+    disableButton = true;
     let ri = new RandomWeigths(board, board.colorHandler);
     ri.execute();
+    disableButton = false;
 }
 
 dfs.onclick = ()=>{
@@ -116,7 +143,12 @@ startExec.onclick = ()=>{
 
 
 clear.onclick = ()=>{
+    if(disableButton){
+        return;
+    }
+    disableButton = true;
     board.clearBoard();
+    disableButton = false;``
 }
 
 
