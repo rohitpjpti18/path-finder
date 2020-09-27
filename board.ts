@@ -301,6 +301,9 @@ class Board{
     }
 
     async algoHandler(){
+        if(this.algoInProgress){
+            return;
+        }
         switch(this.algoID){
             case 1:
                 let bfs = new BreadthFirstSearch(this.nodes.nodeList, this.edges.edgeList, this.source, this.destination, this.colorHandler);

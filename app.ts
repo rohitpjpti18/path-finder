@@ -1,4 +1,4 @@
-import Dijkstra from './algorithms/DijkstrasAlgorithm';
+import { start } from 'repl';
 import Board from './Board';
 import RandomMaze from './mazes/RandomMaze';
 import RandomWeigths from './mazes/RandomWeights';
@@ -46,10 +46,9 @@ weights.onclick = () =>{
 
 
 
-
-let startExec = document.getElementById("startExec");
-let wal = document.getElementById("wall");
-let clear = document.getElementById("clear");
+// get find path and clear the board buttons tag
+let startExec = document.getElementById("startExec") as HTMLInputElement;
+let clear = document.getElementById("clear") as HTMLInputElement;
 
 // get all maze buttons tag
 let rdi = document.getElementById("rdi");
@@ -65,54 +64,66 @@ let bfs = document.getElementById("bfs");
 let dijkstra = document.getElementById("dijkstra");
 
 
-rdi.onclick = ()=>{
-    if(disableButton){
-        return;
-    }
-    disableButton = true;
-    let rd = new RecursiveDivision(board);
-    rd.execute(1);
-    disableButton = false;
+function disableAllButton(){
+    clear.disabled = true;
+    startExec.disabled = true;
+    weights.disabled = true;
 }
 
-rdv.onclick = ()=>{
-    if(disableButton){
-        return;
-    }
-    disableButton = true;
-    let rd = new RecursiveDivision(board);
-    rd.execute(2);
-    disableButton = false;
+function enableAllButton(){
+    clear.disabled = false;
+    startExec.disabled = false;
+    weights.disabled = false;
 }
 
-rdh.onclick = ()=>{
-    if(disableButton){
+rdi.onclick = async ()=>{
+    if(clear.disabled){
         return;
     }
-    disableButton = true;
+    disableAllButton();
     let rd = new RecursiveDivision(board);
-    rd.execute(3);
-    disableButton = false;
+    await rd.execute(1);
+    enableAllButton();
 }
 
-rwl.onclick = ()=>{
-    if(disableButton){
+rdv.onclick = async ()=>{
+    if(clear.disabled){
         return;
     }
-    disableButton = true;
+    disableAllButton();
+    let rd = new RecursiveDivision(board);
+    await rd.execute(2);
+    enableAllButton();
+}
+
+rdh.onclick = async ()=>{
+    if(clear.disabled){
+        return;
+    }
+    disableAllButton();
+    let rd = new RecursiveDivision(board);
+    await rd.execute(3);
+    enableAllButton();
+}
+
+rwl.onclick = async ()=>{
+    if(clear.disabled){
+        return;
+    }
+    disableAllButton();
     let rw = new RandomMaze(board, board.colorHandler);
     rw.execute();
-    disableButton = false;
+    enableAllButton();
 }
 
 rweight.onclick = ()=>{
-    if(disableButton){
+    if(clear.disabled){
         return;
     }
-    disableButton = true;
+    disableAllButton();
     let ri = new RandomWeigths(board, board.colorHandler);
     ri.execute();
-    disableButton = false;
+    enableAllButton();
 }
 
 dfs.onclick = ()=>{
@@ -129,26 +140,13 @@ dijkstra.onclick = ()=>{
 }
 
 
-
-
-
-
-
-
 startExec.onclick = ()=>{
     //console.log("startExec worked!!");
     board.algoHandler();
 }
 
-
-
 clear.onclick = ()=>{
-    if(disableButton){
-        return;
-    }
-    disableButton = true;
     board.clearBoard();
-    disableButton = false;``
 }
 
 
