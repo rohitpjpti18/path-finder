@@ -20,31 +20,13 @@ if (navigator.userAgent.match(/Android/i)
         temp3 = 16;
         temp4 = 313;
 } 
-
 const row = temp1;
 const column = temp2;
 const source = temp3;
 const destination = temp4;
 
-let disableButton = false;
-
-
+// Initialize board
 let board = new Board(row, column, source, destination);
-
-
-let weights = document.getElementById("weights") as HTMLInputElement;
-
-
-weights.onclick = () =>{
-    if(weights.checked == true){
-        board.addWeight = true;
-    }else{
-        board.addWeight = false;
-    }
-}
-
-
-
 
 // get find path and clear the board buttons tag
 let startExec = document.getElementById("startExec") as HTMLInputElement;
@@ -62,6 +44,16 @@ let rweight = document.getElementById("rweight");
 let dfs = document.getElementById("dfs");
 let bfs = document.getElementById("bfs");
 let dijkstra = document.getElementById("dijkstra");
+
+
+let weights = document.getElementById("weights") as HTMLInputElement;
+
+
+// generate random walls by default
+let le = new RandomMaze(board, board.colorHandler);
+le.execute();
+le = null;
+
 
 
 function disableAllButton(){
@@ -150,7 +142,13 @@ clear.onclick = ()=>{
 }
 
 
-
+weights.onclick = () =>{
+    if(weights.checked == true){
+        board.addWeight = true;
+    }else{
+        board.addWeight = false;
+    }
+}
 
 
 var modal = document.getElementById("myModal");

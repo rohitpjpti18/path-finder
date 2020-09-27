@@ -1,6 +1,3 @@
-import Board from "./Board";
-import NodeSet from "./utilities/NodeSet";
-
 class ColorNode{
     speed: number;
     defaultColor: string;
@@ -13,7 +10,7 @@ class ColorNode{
         this.defaultColor = "#c5e2db";
         this.wallColor = "#4a5e58";
         this.visitedColor = "#96daeb";
-        this.pathColor = "#ffe066";
+        this.pathColor = "#ffd094";
     }
 
     sleep(){
