@@ -10,7 +10,7 @@ class ColorNode{
         this.defaultColor = "#c5e2db";
         this.wallColor = "#4a5e58";
         this.visitedColor = "#96daeb";
-        this.pathColor = "#ffd094";
+        this.pathColor = "#f5da7a";
     }
 
     sleep(){
