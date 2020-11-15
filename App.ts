@@ -7,11 +7,11 @@ import * as $ from 'jquery';
 
 let temp1:number;
 temp1 = Math.floor($(document).height()/28)+2;
-if(temp1%2 == 0) temp1-1;
+if(temp1%2 != 0) temp1-1;
 
 let temp2:number;
 temp2 = Math.floor($(document).width()/28)+5;
-if(temp2%2 == 0) temp2-1;
+if(temp2%2 != 0) temp2-1;
 
 let temp3 = (temp2)+1;
 let temp4 = (temp1-1)*(temp2)-2;
