@@ -44,6 +44,61 @@ class RecursiveDivision{
         this.board.colorHandler.recolorAllNodes(this.board.nodes.nodeList, this.board.source, this.board.destination);
     }
 
+    buildQuickBorder(){
+        for(let i = 0; i<this.board.nodes.column; i++){
+            if(i !== this.board.source && i !== this.board.destination){
+                this.board.nodes.setNodeToWall(i);
+            }
+        }
+        for(let i = 1; i<this.board.nodes.row-1; i++){
+            if(i*this.board.nodes.column !== this.board.source && i*this.board.nodes.column !== this.board.destination){
+                this.board.nodes.setNodeToWall(i*this.board.nodes.column);
+                this.board.nodes.setNodeToWall(i*this.board.nodes.column+(this.board.nodes.column-1))
+            }
+        }
+
+        for(let i = 0; i<this.board.nodes.column; i++){
+            if(i+((this.board.nodes.row-1)*this.board.nodes.column) !== this.board.source &&
+               i+((this.board.nodes.row-1)*this.board.nodes.column) !== this.board.destination
+            ){
+                this.board.nodes.setNodeToWall(i+((this.board.nodes.row-1)*this.board.nodes.column));
+            }
+
+        }
+    }
+
+    recursiveQuickDivision(rowStartPos:number, rowEndPos:number, colStartPos:number, colEndPos:number){
+        if((rowEndPos>rowStartPos+1)&&(colEndPos>colStartPos+1)){
+            if((rowEndPos-rowStartPos)<(colEndPos-colStartPos)){
+                let divider = this.random.GenerateEvenRandomNumber(colStartPos, colEndPos);
+                for(let i = rowStartPos; i<=rowEndPos; i++){
+                    let currentIndex = this.board.nodes.resolveRowColumn(i, divider);
+                    this.board.handleWallBuilding(currentIndex);
+                }
+                let openRow = this.random.GenerateOddRandomNumber(rowStartPos, rowEndPos);
+                let openNode = this.board.nodes.resolveRowColumn(openRow, divider);
+                this.board.handleWallBuilding(openNode);
+
+
+                this.recursiveQuickDivision(rowStartPos, rowEndPos, colStartPos, divider-1);
+                this.recursiveQuickDivision(rowStartPos, rowEndPos, divider+1, colEndPos);
+            }
+            else{
+                let divider = this.random.GenerateEvenRandomNumber(rowStartPos, rowEndPos);
+                for(let i = colStartPos; i<=colEndPos; i++){
+                    let currentIndex = this.board.nodes.resolveRowColumn(divider, i);
+                    this.board.handleWallBuilding(currentIndex);
+                }
+                let openCol = this.random.GenerateOddRandomNumber(colStartPos, colEndPos);
+                let openNode = this.board.nodes.resolveRowColumn(divider, openCol);
+                this.board.handleWallBuilding(openNode);
+    
+                this.recursiveQuickDivision(rowStartPos, divider-1, colStartPos, colEndPos);
+                this.recursiveQuickDivision(divider+1, rowEndPos, colStartPos, colEndPos);
+            }
+        }
+    }
+
     async buildBorder(){
         for(let i = 0; i<this.board.nodes.column; i++){
             if(i !== this.board.source && i !== this.board.destination){
@@ -105,7 +160,7 @@ class RecursiveDivision{
         }
     }
 
-
+    /*
     async recursiveDivisionVertical(rowStartPos:number, rowEndPos:number, colStartPos:number, colEndPos:number){
         if((rowEndPos>rowStartPos+1)&&(colEndPos>colStartPos+1)){
             let divider = this.random.GenerateEvenRandomNumber(colStartPos, colEndPos);
@@ -122,6 +177,29 @@ class RecursiveDivision{
             await this.recursiveDivisionVertical(rowStartPos, rowEndPos, divider+1, colEndPos);
         }
     }
+    */
+
+    async recursiveDivisionVertical(rowStartPos:number, rowEndPos:number, colStartPos:number, colEndPos:number){
+        if((rowEndPos>rowStartPos+1)&&(colEndPos>colStartPos+1)){
+            let divider = this.random.GenerateEvenRandomNumber(colStartPos, colEndPos);
+
+
+            for(let i = rowStartPos; i<=rowEndPos; i++){
+                let currentIndex = this.board.nodes.resolveRowColumn(i, divider);
+                await this.board.handleWallBuildingHauleHaule(currentIndex);
+            }
+            let openRow1 = this.random.GenerateOddRandomNumber(rowStartPos, Math.floor((rowEndPos+rowStartPos)/2));
+            let openRow2 = this.random.GenerateOddRandomNumber(Math.floor((rowEndPos+rowStartPos)/2)+1, rowEndPos);
+            let openNode1 = this.board.nodes.resolveRowColumn(openRow1, divider);
+            await this.board.handleWallBuildingHauleHaule(openNode1);
+            let openNode2 = this.board.nodes.resolveRowColumn(openRow2, divider);
+            await this.board.handleWallBuildingHauleHaule(openNode2);
+
+
+            await this.recursiveDivisionVertical(rowStartPos, rowEndPos, colStartPos, divider-1);
+            await this.recursiveDivisionVertical(rowStartPos, rowEndPos, divider+1, colEndPos);
+        }
+    }
 
 
     async recursiveDivisionHorizontal(rowStartPos:number, rowEndPos:number, colStartPos:number, colEndPos:number){
@@ -131,13 +209,31 @@ class RecursiveDivision{
                     let currentIndex = this.board.nodes.resolveRowColumn(divider, i);
                     await this.board.handleWallBuildingHauleHaule(currentIndex);
                 }
-                let openCol = this.random.GenerateOddRandomNumber(colStartPos, colEndPos);
-                let openNode = this.board.nodes.resolveRowColumn(divider, openCol);
-                await this.board.handleWallBuildingHauleHaule(openNode);
+                let openCol1 = this.random.GenerateOddRandomNumber(colStartPos, Math.floor((colEndPos+colStartPos)/2));
+                let openCol2 = this.random.GenerateOddRandomNumber(Math.floor((colEndPos+colStartPos)/2)+1, colEndPos);
+                let openNode1 = this.board.nodes.resolveRowColumn(divider, openCol1);
+                await this.board.handleWallBuildingHauleHaule(openNode1);
+                let openNode2 = this.board.nodes.resolveRowColumn(divider, openCol2);
+                await this.board.handleWallBuildingHauleHaule(openNode2);
+                
+
     
                 await this.recursiveDivisionHorizontal(rowStartPos, divider-1, colStartPos, colEndPos);
                 await this.recursiveDivisionHorizontal(divider+1, rowEndPos, colStartPos, colEndPos);
         }
+    }
+
+    recursiveQuickDivisionMaze(){
+        this.board.algoInProgress = true;
+        this.board.clearBoard();
+
+        this.buildQuickBorder();
+        this.recursiveQuickDivision(1, this.board.nodes.row-2, 1, this.board.nodes.column-2);
+        
+        this.handleReachability(this.board.source, this.board.destination);
+
+        this.board.colorHandler.recolorAllNodes(this.board.nodes.nodeList, this.board.source, this.board.destination);
+        this.board.algoInProgress = false;
     }
 
 
@@ -179,6 +275,7 @@ class RecursiveDivision{
 
 
     async execute(id:number){
+        if(id == 0) this.recursiveQuickDivisionMaze();
         if(id == 1) await this.recursiveDivisionMaze();
         if(id == 2) await this.recursiveDivisionVerticalMaze();
         if(id == 3) await this.recursiveDivisionHorizontalMaze();
