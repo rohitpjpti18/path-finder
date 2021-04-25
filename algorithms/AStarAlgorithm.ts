@@ -126,11 +126,7 @@ class AStarAlgorithm{
                 
                 if(!this.nodes[neighbour][4] && !evaluated.includes(neighbour)){
                     let newGCostToNeighbour = 0;
-                    if(!this.nodes[neighbour][5]){
-                        newGCostToNeighbour = this.nodes[current][6] + 1;
-                    }else{
-                        newGCostToNeighbour = this.nodes[current][6] + 1 + this.edges[current][i][1];
-                    }
+                    newGCostToNeighbour = this.nodes[current][6] + this.edges[current][i][1];
 
                     if( newGCostToNeighbour < this.nodes[neighbour][6] || !toBeEvaluated.includes(neighbour) ){
                         this.nodes[neighbour][6] = newGCostToNeighbour;    
@@ -143,8 +139,6 @@ class AStarAlgorithm{
                         }
                     }
                 }
-
-
             }
         }
     }
