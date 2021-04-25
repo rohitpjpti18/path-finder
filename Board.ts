@@ -4,6 +4,7 @@ import ColorNode from "./Color";
 import BreadthFirstSearch from "./algorithms/BreadthFirstSearch";
 import DepthFirstSearch from "./algorithms/DepthFirstSearch";
 import Dijkstra from "./algorithms/DijkstrasAlgorithm";
+import AStarAlgorithm from "./algorithms/AStarAlgorithm";
 
 class Board{
     nodes:NodeSet;
@@ -84,6 +85,14 @@ class Board{
         endNode.innerHTML = this.dSymbol;
 
         this.eventListeners();
+    }
+
+    handleWallBuilding(index:number){
+        if(index != this.source && index != this.destination)
+            this.nodes.handleWallSwitch(index);
+        else{
+            this.nodes.nodeList[index][4] = false;
+        }
     }
 
     async handleWallBuildingHauleHaule(index:number){
@@ -298,6 +307,11 @@ class Board{
             dijkstra.quickExecute(sor, dest);
         }
 
+        if(this.algoID == 4){
+            let astar = new AStarAlgorithm(this, this.colorHandler);
+            astar.quickExecute(sor, dest);
+        }
+
     }
 
     async algoHandler(){
@@ -329,7 +343,10 @@ class Board{
                 let dijkstra = new Dijkstra(this, this.colorHandler);
                 await dijkstra.execute();
                 break;
-                
+            case 4:
+                let astar = new AStarAlgorithm(this, this.colorHandler);
+                await astar.execute();
+                break;
             default:
                 alert("You haven't selected an algorithm or the algorithm you selected is not yet implemented. Please choose a valid algorithm.");
         }

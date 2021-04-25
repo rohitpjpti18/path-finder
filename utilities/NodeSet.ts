@@ -9,6 +9,9 @@ nodeList Description:
     3           number          visited
     4           boolean         is node a wall (true-is wall, false-not a wall)
     5           boolean         isWeighted   - is a weighted node
+    6           number          gCost       - for astar : -1 indicate not applicable
+    7           number          hCost       - for astar : -1 indicate not applicable
+    8           number          fCost       - for astar : -1 indicate not applicable
 
 - color code usage
     use to colour the node elements according to the code;
@@ -21,7 +24,7 @@ nodeList Description:
 class NodeSet{
     column: number;
     row: number;
-    nodeList: [string, number, number, number, boolean, boolean][];
+    nodeList: [string, number, number, number, boolean, boolean, number, number, number][];
     totalNodes: number;
 
     constructor(row: number, column: number){
@@ -32,7 +35,7 @@ class NodeSet{
 
 
         for(let i = 0 ; i<this.totalNodes; i++){
-            this.nodeList.push([i.toString(), 0, -1, -1, false, false]);
+            this.nodeList.push([i.toString(), 0, -1, -1, false, false, -1, -1, -1]);
         }
     }
 
@@ -135,6 +138,32 @@ class NodeSet{
 
     resolveRowColumn(i:number, j:number){
         return i*this.column+j;
+    }
+
+    // computes G Cost, H Cost, F Cost
+    computeCosts(source:number, destination:number){
+        let sourceNodeRow = Math.floor(source/this.column);
+        let sourceNodeColumn = source%this.column;
+
+        let destinationNodeRow = Math.floor(destination/this.column);
+        let destinationNodeColumn = destination%this.column;
+        
+        for(let i = 0; i<this.nodeList.length; ++i){
+            let currentNodeRow = Math.floor(i/this.column);
+            let currentNodeColumn = i%this.column;
+
+            let baseDiff = Math.abs(sourceNodeRow-currentNodeRow);
+            let heightDiff = Math.abs(sourceNodeColumn-currentNodeColumn);
+
+            this.nodeList[i][6] = 0;
+
+            baseDiff = Math.abs(destinationNodeRow - currentNodeRow);
+            heightDiff = Math.abs(destinationNodeColumn - currentNodeColumn);
+
+            this.nodeList[i][7] = baseDiff + heightDiff;
+
+            this.nodeList[i][8] = this.nodeList[i][6] + this.nodeList[i][7];
+        }
     }
 }
 

@@ -13,7 +13,7 @@ class EdgeSet{
         this.adjacenyList = []
     }
 
-    computeUnweightedEdges(nodes: [string, number, number, number, boolean, boolean][], column: number){
+    computeUnweightedEdges(nodes: [string, number, number, number, boolean, boolean, number, number, number][], column: number){
         this.edgeList = [];
 
         for(let i = 0; i<nodes.length; i++){
@@ -34,7 +34,7 @@ class EdgeSet{
         }
     }
 
-    computeWeightedEdges(nodes: [string, number, number, number, boolean, boolean][], column:number){
+    computeWeightedEdges(nodes: [string, number, number, number, boolean, boolean, number, number, number][], column:number){
         this.edgeList = [];
         this.adjacenyList = [];
         

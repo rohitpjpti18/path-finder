@@ -23,7 +23,7 @@ class ColorNode{
     }
 
 
-    async updateNodeColor(node:[string, number, number, number, boolean, boolean]){
+    async updateNodeColor(node:[string, number, number, number, boolean, boolean, number, number, number]){
         var cell = document.getElementById(node[0]);
 
         if(node[1] == 0){
@@ -88,7 +88,7 @@ class ColorNode{
     }
 
 
-    async findPath(nodes:[string, number, number, number, boolean, boolean][], destination:number, source:number){
+    async findPath(nodes:[string, number, number, number, boolean, boolean, number, number, number][], destination:number, source:number){
         let path = [];
         let currentNode = destination;
         while(nodes[currentNode][2] != -1){
@@ -108,7 +108,7 @@ class ColorNode{
     }
 
 
-    findQuickPath(nodes:[string, number, number, number, boolean, boolean][], destination:number, source:number){
+    findQuickPath(nodes:[string, number, number, number, boolean, boolean, number, number, number][], destination:number, source:number){
         let path = [];
         let currentNode = destination;
         while(nodes[currentNode][2] != -1){

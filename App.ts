@@ -29,8 +29,10 @@ if (navigator.userAgent.match(/Android/i)
 } 
 let row = temp1;
 let column = temp2;
-const source = temp3;
-const destination = temp4;
+const source = Math.floor(row/2)*column + Math.floor(column*(1/3));
+const destination = Math.floor(row/2)*column + Math.floor(column*(2/3));
+
+let activeColor = "#6199f2";
 
 // Initialize board
 let board = new Board(row, column, source, destination);
@@ -51,15 +53,10 @@ let rweight = document.getElementById("rweight");
 let dfs = document.getElementById("dfs");
 let bfs = document.getElementById("bfs");
 let dijkstra = document.getElementById("dijkstra");
+let astar = document.getElementById("astar");
 
 
 let weights = document.getElementById("weights") as HTMLInputElement;
-
-
-// generate random walls by default
-let le = new RandomMaze(board, board.colorHandler);
-le.execute();
-le = null;
 
 
 
@@ -74,6 +71,14 @@ function enableAllButton(){
     startExec.disabled = false;
     weights.disabled = false;
 }
+
+
+let defaultpattern = new RecursiveDivision(board);
+disableAllButton();
+defaultpattern.execute(0);
+enableAllButton();
+defaultpattern = null;
+
 
 rdi.onclick = async ()=>{
     if(clear.disabled){
@@ -125,31 +130,75 @@ rweight.onclick = ()=>{
     enableAllButton();
 }
 
-dfs.onclick = ()=>{
-    //console.log("dfs worked!!");
-    board.algoID = 2;
+
+function updateAlgoActive(activeStr:number){
+    var algo = [bfs ,bfs, dfs, dijkstra, astar];
+
+    for(let i = 0; i<algo.length; i++){
+        algo[i].style.backgroundColor = "initial";
+    }
+
+    algo[activeStr].style.backgroundColor = activeColor;
 }
 
 bfs.onclick = ()=>{
+    if(board.algoInProgress) return;
+
+    updateAlgoActive(1);
+    startExec.innerText = "Find path using BFS";
     board.algoID = 1;
 }
 
+dfs.onclick = ()=>{
+    //console.log("dfs worked!!");
+    if(board.algoInProgress) return;
+
+    updateAlgoActive(2);
+    startExec.innerText = "Find path using DFS";
+    board.algoID = 2;
+}
+
+
+
 dijkstra.onclick = ()=>{
+    if(board.algoInProgress) return;
+
+    updateAlgoActive(3);
+    startExec.innerText = "Find path using dijkstra's";
     board.algoID = 3;
 }
 
+astar.onclick = ()=>{
+    if(board.algoInProgress) return;
 
-startExec.onclick = ()=>{
+    updateAlgoActive(4);
+    startExec.innerText = "Find path using A*";
+    board.algoID = 4;
+}
+
+
+startExec.onclick = async ()=>{
     //console.log("startExec worked!!");
-    board.algoHandler();
+    if(board.algoInProgress) return;
+
+    clear.disabled = true;
+    weights.disabled = true;
+
+    await board.algoHandler();
+    clear.disabled = false;
+    weights.disabled = false;
 }
 
 clear.onclick = ()=>{
+    if(board.algoInProgress) return;
+
     board.clearBoard();
 }
 
 
 weights.onclick = () =>{
+    if(board.algoInProgress) return;
+
     if(weights.checked == true){
         board.addWeight = true;
     }else{
