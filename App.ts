@@ -6,27 +6,13 @@ import RecursiveDivision from './mazes/RecursiveDivision';
 import * as $ from 'jquery';
 
 let temp1:number;
-temp1 = Math.floor($(document).height()/28)+2;
+temp1 = Math.floor($(document).height()/24)-4;
 if(temp1%2 == 0) temp1--;
 
 let temp2:number;
-temp2 = Math.floor($(document).width()/28)+5;
+temp2 = Math.floor($(document.getElementById("my")).width()/24);
 if(temp2%2 == 0) temp2--;
 
-let temp3 = (temp2)+1;
-let temp4 = (temp1-1)*(temp2)-2;
-if (navigator.userAgent.match(/Android/i) 
-        || navigator.userAgent.match(/webOS/i) 
-        || navigator.userAgent.match(/iPhone/i)  
-        || navigator.userAgent.match(/iPad/i)  
-        || navigator.userAgent.match(/iPod/i) 
-        || navigator.userAgent.match(/BlackBerry/i) 
-        || navigator.userAgent.match(/Windows Phone/i)) { 
-        temp1 = 23;
-        temp2 = 15;
-        temp3 = 16;
-        temp4 = 313;
-} 
 let row = temp1;
 let column = temp2;
 const source = Math.floor(row/2)*column + Math.floor(column*(1/3));

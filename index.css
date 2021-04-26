@@ -7,7 +7,10 @@ body{
 }
 
 #my{
-    margin-left: 4%;
+    margin-left: 0%;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
 }
 
 .main{
@@ -25,8 +28,7 @@ body{
 table{
     border-collapse: collapse;
     border-spacing: 0;
-    border: 0.5px solid #c5e2db;
-    width: max-content;
+    /*border: 0.5px solid #c5e2db;*/
 }
 
 
