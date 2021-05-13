@@ -35,10 +35,10 @@ class Board{
 
     previousCol: boolean;
 
-    constructor(row: number, column: number, start: number, end: number){
+    constructor(row: number, column: number, start: number, end: number, defaultSpeed: number){
         this.nodes = new NodeSet(row, column);
         this.edges = new EdgeSet();
-        this.colorHandler = new ColorNode();
+        this.colorHandler = new ColorNode(defaultSpeed);
         this.container = document.getElementById("main");
         this.table = document.createElement("table");
         this.source = start;
@@ -85,6 +85,10 @@ class Board{
         endNode.innerHTML = this.dSymbol;
 
         this.eventListeners();
+    }
+
+    changeSpeed(speedValue:number){
+        this.colorHandler.setSpeed(speedValue)
     }
 
     handleWallBuilding(index:number){

@@ -20,8 +20,9 @@ const destination = Math.floor(row/2)*column + Math.floor(column*(2/3));
 
 let activeColor = "#6199f2";
 
+let defaultSpeed = 55
 // Initialize board
-let board = new Board(row, column, source, destination);
+let board = new Board(row, column, source, destination, defaultSpeed);
 
 // get find path and clear the board buttons tag
 let startExec = document.getElementById("startExec") as HTMLInputElement;
@@ -43,6 +44,7 @@ let astar = document.getElementById("astar");
 
 
 let weights = document.getElementById("weights") as HTMLInputElement;
+let speed = document.getElementById("speed") as HTMLInputElement;
 
 
 
@@ -192,6 +194,11 @@ weights.onclick = () =>{
     }
 }
 
+speed.oninput = () =>{
+    let incrementvalue = 5;
+    let baseSpeed = 105;
+    board.changeSpeed(baseSpeed - Math.floor(incrementvalue*parseInt(speed.value)))
+}
 
 var modal = document.getElementById("myModal");
 

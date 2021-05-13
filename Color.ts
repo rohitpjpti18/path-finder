@@ -5,12 +5,16 @@ class ColorNode{
     visitedColor: string;
     pathColor: string;
 
-    constructor(){
-        this.speed = 25;
+    constructor(defaultSpeed:number){
+        this.speed = defaultSpeed;
         this.defaultColor = "#c5e2db";
         this.wallColor = "#4a5e58";
         this.visitedColor = "#96daeb";
         this.pathColor = "#f5da7a";
+    }
+
+    setSpeed(value:number){
+        this.speed=value
     }
 
     sleep(){
